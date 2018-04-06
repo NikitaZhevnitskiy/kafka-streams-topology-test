@@ -2,7 +2,11 @@ package ru.zhenik.kafka.testsamples;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -18,6 +22,7 @@ import org.junit.Test;
 
 
 public class LineSplitTest {
+  private final String SERVER_MOCK = "lol:11111";
   private TopologyTestDriver testDriver;
   private StringDeserializer stringDeserializer = new StringDeserializer();
   private ConsumerRecordFactory<String, String> recordFactory = new ConsumerRecordFactory<>(new StringSerializer(), new StringSerializer());
@@ -29,7 +34,7 @@ public class LineSplitTest {
     Topology topology = LineSplit.getTopology(builder);
 
     Properties config = new Properties();
-    config.setProperty(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "dummy:11111");
+    config.setProperty(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, SERVER_MOCK);
     config.setProperty(StreamsConfig.APPLICATION_ID_CONFIG, LineSplit.APP_ID);
     config.setProperty(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
     config.setProperty(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
@@ -42,11 +47,24 @@ public class LineSplitTest {
   }
 
 
+  @Test
+  public void testTopologyDriver() {
+    // Arrange
+    testDriver.pipeInput(recordFactory.create(LineSplit.INPUT_TOPIC, "", "very long string line   ", 9999L));
+
+    // Act
+    List<ProducerRecord<String, String>> outputRecords = getRecords(LineSplit.OUTPUT_TOPIC);
+
+    // Assert
+    assertEquals(4, outputRecords.size());
+  }
 
   @Test
   public void testTopologyLogic() {
+    // Arrange
     testDriver.pipeInput(recordFactory.create(LineSplit.INPUT_TOPIC, "", "very long string line", 9999L));
 
+    // Assert
     OutputVerifier.compareKeyValue(testDriver.readOutput(LineSplit.OUTPUT_TOPIC, stringDeserializer, stringDeserializer), "", "very");
     OutputVerifier.compareKeyValue(testDriver.readOutput(LineSplit.OUTPUT_TOPIC, stringDeserializer, stringDeserializer), "", "long");
     OutputVerifier.compareKeyValue(testDriver.readOutput(LineSplit.OUTPUT_TOPIC, stringDeserializer, stringDeserializer), "", "string");
@@ -54,7 +72,17 @@ public class LineSplitTest {
 
   }
 
-
-
+  private List<ProducerRecord<String,String>> getRecords(String topic){
+    ProducerRecord<String, String> record;
+    ArrayList<ProducerRecord<String, String>> list = new ArrayList<>();
+    do {
+      record = testDriver.readOutput(topic, stringDeserializer, stringDeserializer);
+      if (record!=null){
+        list.add(record);
+      }
+    }
+    while (record!=null);
+    return list;
+  }
 
 }

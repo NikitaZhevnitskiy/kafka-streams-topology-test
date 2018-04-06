@@ -22,7 +22,8 @@ public class LineSplit {
     final CountDownLatch latch = new CountDownLatch(1);
     attachShutDownHandler(streams, latch);
   }
-  public static Topology getTopology(StreamsBuilder builder){
+
+  static Topology getTopology(StreamsBuilder builder){
     KStream<String, String> source = builder.stream(INPUT_TOPIC);
     source
         .flatMapValues(value -> Arrays.asList(value.split("\\W+")))
