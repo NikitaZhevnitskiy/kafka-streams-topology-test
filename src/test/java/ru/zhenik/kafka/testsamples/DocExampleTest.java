@@ -19,8 +19,6 @@ import org.apache.kafka.streams.processor.Punctuator;
 import org.apache.kafka.streams.state.KeyValueIterator;
 import org.apache.kafka.streams.state.KeyValueStore;
 import org.apache.kafka.streams.state.Stores;
-//import org.apache.kafka.streams.test.ConsumerRecordFactory;
-//import org.apache.kafka.streams.test.OutputVerifier;
 import org.apache.kafka.streams.test.ConsumerRecordFactory;
 import org.apache.kafka.streams.test.OutputVerifier;
 import org.junit.After;
@@ -51,11 +49,10 @@ public class DocExampleTest {
 
     Properties config = new Properties();
     config.setProperty(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9091");
-//    config.setProperty(StreamsConfig.APPLICATION_ID_CONFIG, "YOMAHAT");
     config.setProperty(StreamsConfig.APPLICATION_ID_CONFIG, "maxAggregation");
     config.setProperty(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG,
         Serdes.String().getClass().getName());
-//    config.setProperty(StreamsConfig.STATE_DIR_CONFIG, "/home/nikita/IdeaProjects/streams-test-samples/target");
+    config.setProperty(StreamsConfig.STATE_DIR_CONFIG, "/home/nikita/IdeaProjects/streams-test-samples/target");
     config.setProperty(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG,
         Serdes.Long().getClass().getName());
 
