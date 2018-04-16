@@ -3,6 +3,13 @@
 2. integration // todo
 3. end2end (testcontainers, etc ...) // todo 
 
+## Kafka docker
+UP
+```
+docker-compose -f kafka.yml up -d
+```
+
+
 
 ## Refs
 * [Testing a Streams Application | Kafka 1.0](https://kafka.apache.org/11/documentation/streams/developer-guide/testing.html)
