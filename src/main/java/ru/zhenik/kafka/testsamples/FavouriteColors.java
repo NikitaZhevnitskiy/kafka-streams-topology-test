@@ -3,11 +3,11 @@ package ru.zhenik.kafka.testsamples;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.common.serialization.StringSerializer;
+import org.apache.kafka.common.serialization.Serdes.LongSerde;
+import org.apache.kafka.common.serialization.Serdes.StringSerde;
 import org.apache.kafka.common.utils.Bytes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.KeyValue;
@@ -16,7 +16,6 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
-import org.apache.kafka.streams.kstream.KeyValueMapper;
 import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.state.KeyValueStore;
@@ -65,10 +64,10 @@ public class FavouriteColors {
     // 4 MapValues to extract the colour (lowercase)
     // 5 Filter to remove bad colors
     KStream<String, String> usersAndColours = textLines
-        .peek((k,v) -> System.out.println("HERE: "+k+":"+v) )
+        .peek((k,v) -> System.out.println("come: "+k+":"+v) )
         .filter((key, value)-> value.contains(","))
-        .selectKey((key, value)-> value.split(",")[0].toLowerCase())
-        .mapValues(value -> value.split(",")[1].toLowerCase().trim())
+        .map((key, value)-> KeyValue.pair(value.split(",")[0].toLowerCase(), value.split(",")[1].toLowerCase()))
+        .peek((k,v) -> System.out.println("AFTER_MAP: "+k+":"+v) )
         .filter((user, colour)-> COLORS.contains(colour));
 
 
@@ -78,17 +77,14 @@ public class FavouriteColors {
 
     // 7 Read from Kafka as a KTable
 
-    KTable<String, String> userAndColoursTable = builder.table(USER_KEYS_AND_COLOURS);
+//    KTable<String, String> userAndColoursTable = builder.table(USER_KEYS_AND_COLOURS);
 
     // 8 GroupBy colours
     // 9 Count to cont colours occurrences
-    KTable<String, Long> favouriteColours = userAndColoursTable
-      .groupBy((user, color) -> new KeyValue<>(color,color))
-//        .count();
-      .count(Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as(COUNTS_BY_COLORS_STORAGE));
-
-    // 10 Write to kafka as final topic
-    favouriteColours
+    usersAndColours
+        .groupBy((user, color) -> color)
+        .count(Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as(COUNTS_BY_COLORS_STORAGE)
+            .withValueSerde(Serdes.Long()).withKeySerde(Serdes.String()))
         .toStream()
         .peek((k,v)-> System.out.println("HHH === "+k+":"+v))
         .to(FAVOURITE_COLOUR_OUTPUT, Produced.with(Serdes.String(), Serdes.Long()));
