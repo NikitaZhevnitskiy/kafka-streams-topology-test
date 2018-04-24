@@ -35,8 +35,7 @@ public class FavouriteColors {
     StreamsBuilder builder = new StreamsBuilder();
     Topology topology = getTopology(builder);
     KafkaStreams kafkaStreams = new KafkaStreams(topology, properties);
-    Utils.attachShutDownHandler(kafkaStreams,  new CountDownLatch(1));
-
+    Utils.addShutdownHook(kafkaStreams);
   }
 
 
@@ -47,6 +46,7 @@ public class FavouriteColors {
     props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");    // assuming that the Kafka broker this application is talking to runs on local machine with port 9092
     props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
     props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+//    props.put(StreamsConfig.PROCESSING_GUARANTEE_CONFIG, StreamsConfig.EXACTLY_ONCE);
 
     // disable the cache to demonstrate all the steps involved int the transformation - not recommended in production
 //    props.put(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG, "0");

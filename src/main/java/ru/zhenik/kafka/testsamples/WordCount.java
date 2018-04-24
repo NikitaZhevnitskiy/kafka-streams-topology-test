@@ -26,7 +26,7 @@ public class WordCount {
     final StreamsBuilder builder = new StreamsBuilder();
     final Topology topology = getTopology(builder);
     final KafkaStreams streams = new KafkaStreams(topology, getProps());
-    Utils.attachShutDownHandler(streams,  new CountDownLatch(1));
+    Utils.addShutdownHook(streams);
   }
 
   static Topology getTopology(StreamsBuilder builder){

@@ -12,6 +12,12 @@ import org.apache.kafka.streams.KafkaStreams;
 import ru.zhenik.kafka.testsamples.FavouriteColors;
 
 public class Utils {
+  public static void addShutdownHook(KafkaStreams streams) {
+    // Add shutdown hook to stop the Kafka Streams threads.
+    // You can optionally provide a timeout to `close`.
+    Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
+  }
+
   public static void attachShutDownHandler(KafkaStreams streams, CountDownLatch latch){
     // attach shutdown handler to catch control-c
     Runtime.getRuntime().addShutdownHook(new Thread("streams-shutdown-hook") {

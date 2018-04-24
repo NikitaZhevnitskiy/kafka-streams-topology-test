@@ -21,7 +21,7 @@ public class LineSplit {
     final Topology topology = getTopology(builder);
     final KafkaStreams streams = new KafkaStreams(topology, getProps());
     final CountDownLatch latch = new CountDownLatch(1);
-    Utils.attachShutDownHandler(streams, latch);
+    Utils.addShutdownHook(streams);
   }
 
   static Topology getTopology(StreamsBuilder builder){
