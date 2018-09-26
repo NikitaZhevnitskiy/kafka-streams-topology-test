@@ -1,15 +1,15 @@
 package ru.zhenik.kafka.testsamples.util;
 
-import java.util.Properties;
-import java.util.UUID;
-import java.util.concurrent.CountDownLatch;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
-
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.streams.KafkaStreams;
 import ru.zhenik.kafka.testsamples.FavouriteColors;
+
+import java.util.Properties;
+import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
 
 public class Utils {
   public static void addShutdownHook(KafkaStreams streams) {

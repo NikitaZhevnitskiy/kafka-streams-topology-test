@@ -1,21 +1,11 @@
 package ru.zhenik.kafka.testsamples;
 
-import static org.junit.Assert.*;
-import java.util.Properties;
-import org.apache.kafka.common.serialization.LongDeserializer;
-import org.apache.kafka.common.serialization.LongSerializer;
-import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.common.serialization.StringDeserializer;
-import org.apache.kafka.common.serialization.StringSerializer;
+import org.apache.kafka.common.serialization.*;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.TopologyTestDriver;
-import org.apache.kafka.streams.processor.Processor;
-import org.apache.kafka.streams.processor.ProcessorContext;
-import org.apache.kafka.streams.processor.ProcessorSupplier;
-import org.apache.kafka.streams.processor.PunctuationType;
-import org.apache.kafka.streams.processor.Punctuator;
+import org.apache.kafka.streams.processor.*;
 import org.apache.kafka.streams.state.KeyValueIterator;
 import org.apache.kafka.streams.state.KeyValueStore;
 import org.apache.kafka.streams.state.Stores;
@@ -25,6 +15,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Properties;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 // https://kafka.apache.org/11/documentation/streams/developer-guide/testing.html
 public class DocExampleTest {
@@ -52,7 +47,7 @@ public class DocExampleTest {
     config.setProperty(StreamsConfig.APPLICATION_ID_CONFIG, "maxAggregation");
     config.setProperty(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG,
         Serdes.String().getClass().getName());
-    config.setProperty(StreamsConfig.STATE_DIR_CONFIG, "/home/nikita/IdeaProjects/streams-test-samples/target");
+    config.setProperty(StreamsConfig.STATE_DIR_CONFIG, "./target");
     config.setProperty(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG,
         Serdes.Long().getClass().getName());
 
@@ -167,8 +162,8 @@ public class DocExampleTest {
       }
     }
 
-    @Override
-    public void punctuate(long timestamp) {} // deprecated; not used
+//    @Override
+//    public void punctuate(long timestamp) {} // deprecated; not used
 
     @Override
     public void close() {}

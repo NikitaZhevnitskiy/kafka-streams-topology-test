@@ -1,10 +1,5 @@
 package ru.zhenik.kafka.testsamples;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
-import java.util.Properties;
-import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -17,6 +12,8 @@ import org.apache.kafka.streams.test.OutputVerifier;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Properties;
 
 public class PipeTest {
   private final String SERVER_MOCK = "lol:11111";

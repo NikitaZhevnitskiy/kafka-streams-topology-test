@@ -1,25 +1,18 @@
 package ru.zhenik.kafka.testsamples;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-import java.util.concurrent.CountDownLatch;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.common.serialization.Serdes.LongSerde;
-import org.apache.kafka.common.serialization.Serdes.StringSerde;
 import org.apache.kafka.common.utils.Bytes;
-import org.apache.kafka.streams.KafkaStreams;
-import org.apache.kafka.streams.KeyValue;
-import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.StreamsConfig;
-import org.apache.kafka.streams.Topology;
+import org.apache.kafka.streams.*;
 import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.state.KeyValueStore;
 import ru.zhenik.kafka.testsamples.util.Utils;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 
 public class FavouriteColors {
   public static final String FAVOURITE_COLOUR_INPUT="favourite-colour-input";

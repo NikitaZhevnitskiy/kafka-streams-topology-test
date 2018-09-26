@@ -1,8 +1,5 @@
 package ru.zhenik.kafka.testsamples;
 
-import java.util.Arrays;
-import java.util.Properties;
-import java.util.concurrent.CountDownLatch;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
@@ -10,6 +7,8 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.KStream;
 import ru.zhenik.kafka.testsamples.util.Utils;
+
+import java.util.Properties;
 
 public class Pipe {
   public static final String APP_ID =  "pipe-app-id";

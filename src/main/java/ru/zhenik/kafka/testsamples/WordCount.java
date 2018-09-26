@@ -1,9 +1,5 @@
 package ru.zhenik.kafka.testsamples;
 
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.concurrent.CountDownLatch;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
 import org.apache.kafka.streams.KafkaStreams;
@@ -15,6 +11,10 @@ import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.state.KeyValueStore;
 import ru.zhenik.kafka.testsamples.util.Utils;
+
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Properties;
 
 public class WordCount {
   public static final String APP_ID =  "wordcount-app-id";

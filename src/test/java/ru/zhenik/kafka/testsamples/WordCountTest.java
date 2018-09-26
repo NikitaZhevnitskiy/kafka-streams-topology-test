@@ -1,11 +1,5 @@
 package ru.zhenik.kafka.testsamples;
 
-import static org.junit.Assert.*;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-import org.apache.kafka.common.protocol.types.Field.Str;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -16,10 +10,15 @@ import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.apache.kafka.streams.state.KeyValueStore;
 import org.apache.kafka.streams.test.ConsumerRecordFactory;
-import org.apache.kafka.streams.test.OutputVerifier;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
+
+import static org.junit.Assert.assertEquals;
 
 public class WordCountTest {
   private final String SERVER_MOCK = "lol:11111";
