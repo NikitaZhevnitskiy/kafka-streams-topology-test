@@ -4,13 +4,13 @@
 3. end2end (testcontainers, etc ...) // todo 
 
 ## Kafka docker
-UP
+UP from docker folder
 ```
 docker-compose -f kafka.yml up -d
 ```
 
 
-
 ## Refs
 * [Testing a Streams Application | Kafka 1.0](https://kafka.apache.org/11/documentation/streams/developer-guide/testing.html)
 * [John-Michael Reed git project Java/Scala | kafka 0.10](https://github.com/JohnReedLOL/kafka-streams)
+
