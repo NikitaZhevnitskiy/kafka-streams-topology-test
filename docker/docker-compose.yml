@@ -133,3 +133,13 @@ services:
       - "8778:8778"
     volumes:
       - "./kafka-monitor.properties:/opt/kafka-monitor/config/kafka-monitor.properties"
+
+  event-collector:
+    image: syscomiddleware/kafka-event-collector
+    ports:
+    - 8080:8080
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka1:9092,kafka2:9092,kafka3:9092
+      COLLECTOR_EVENT_TOPIC: __collector
+      COLLECTOR_TOPIC_POLL_INTERVAL: 10 seconds
+      COLLECTOR_CLUSTER_POLL_INTERVAL: 1 minute
